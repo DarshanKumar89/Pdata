@@ -1,7 +1,6 @@
-
 "use strict";
 
-angular.module('pdata.home').controller('headerController', ['$scope', '$modal', function($scope, $modal) {
+angular.module('pdata.layout').controller('layoutController', ['$scope', function($scope) {
 
     $scope.menu = [{
         title: "Tags",

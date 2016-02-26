@@ -1,45 +1,21 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-'use strict';
 
-angular.module('dgc', ['ngCookies',
+"use strict";
+
+angular.module('pdata', ['ngCookies',
     'ngResource',
     'ui.bootstrap',
     'ui.router',
-    'dgc.system',
-    'dgc.home',
-    'dgc.about',
-    'dgc.search',
-    'dgc.navigation',
-    'dgc.tags',
-    'dgc.tags.instance',
-    'dgc.tags.definition'
-]);
+    'pdata.system',
+    'pdata.home',
+    'pdata.layout',
+    'pdata.navigation',
+ ]);
 
-angular.module('dgc.system', ['dgc.system.notification']);
+angular.module('pdata.system', ['pdata.system.notification']);
 
-angular.module('dgc').factory('lodash', ['$window',
+angular.module('pdata').factory('lodash', ['$window',
     function($window) {
         return $window._;
-    }
-]).factory('d3', ['$window',
-    function($window) {
-        return $window.d3;
     }
 ]).factory('global', ['$window', '$location',
     function($window, $location) {
@@ -61,7 +37,7 @@ angular.module('dgc').factory('lodash', ['$window',
     };
 }]).config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpInterceptor');
-}]).run(['$rootScope', 'global', 'notificationService', 'lodash', 'd3', function($rootScope, global, notificationService, lodash, d3) {
+}]).run(['$rootScope', 'global', 'notificationService', 'lodash', function($rootScope, global, notificationService, lodash) {
     var errors = global.renderErrors;
     if (angular.isArray(errors) || angular.isObject(errors)) {
         lodash.forEach(errors, function(err) {
@@ -77,34 +53,5 @@ angular.module('dgc').factory('lodash', ['$window',
             notificationService.error(errors);
         }
     }
-    $rootScope.$on('$stateChangeStart', function() {
-        d3.selectAll('.d3-tip').remove();
-    });
-
-    $rootScope.updateTags = function(added, obj) {
-        if (added) {
-            $rootScope.$broadcast('add_Tag', obj);
-        }
-    };
-
-    $rootScope.loadTraits = function() {
-        $rootScope.$broadcast('load_Traits');
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function(evt, to, toParams, from) {
-        if (from.name !== '' && to.name === 'search' && to.name !== from.name && typeof to.parent === 'undefined' && typeof from.parent === 'undefined') {
-            $rootScope.loadTraits();
-        } else if (from.name === '' && to.name === 'search') {
-            $rootScope.loadTraits();
-        }
-
-        if (typeof to.parent === 'undefined') {
-            if (to.name !== 'search') {
-                $rootScope.leftNav = true;
-            } else {
-                $rootScope.leftNav = false;
-            }
-        }
-    });
 
 }]);

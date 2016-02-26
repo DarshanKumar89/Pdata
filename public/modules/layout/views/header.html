@@ -1,4 +1,4 @@
-<div data-ng-controller="headerController" class="row">
+<div data-ng-controller="layoutController" class="row">
     <div class="navbar-header">
         <button class="navbar-toggle" type="button" data-ng-click="isCollapsed = !isCollapsed">
             <span class="sr-only">Toggle navigation</span>
@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
         </button>
  <a data-ui-sref="search()" data-ui-sref-active="active" class="main-logo">
-   Apache <b>Atlas</b>
+<img src="/img/logo.jpg">
  </a>
     </div>
     <nav class="collapse navbar-collapse" data-collapse="isCollapsed" data-role="navigation">
@@ -20,9 +20,6 @@
             </li>
             <li data-ui-sref-active="active">
               <a  ng-if="!username" class="menu-link" href="https://cwiki.apache.org/confluence/display/ATLAS/Atlas+Home" target="_blank">Help</a>
-            </li>
-            <li data-ui-sref-active="active">
-                <a  ng-if="!username" class="menu-link" href="javascript:void(0)" ng-click="showAbout()">About</a>
             </li>
         </ul>
     </nav>
